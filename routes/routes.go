@@ -2,7 +2,6 @@ package routes
 
 import (
 	"go_gin_alura/controllers"
-	"go_gin_alura/database"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,7 +9,7 @@ import (
 func HandleRequests() {
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
-	database.ConnectDb()
+	r.Static("/assets", "./assets")
 	r.GET("/students", controllers.GetStudents)
 	r.GET("/students/:id", controllers.GetStudent)
 	r.POST("/students", controllers.CreateStudent)
@@ -18,5 +17,6 @@ func HandleRequests() {
 	r.PATCH("/students/:id", controllers.UpdateStudent)
 	r.GET("/students/search", controllers.SearchStudentByName)
 	r.GET("/", controllers.Index)
+	r.NoRoute(controllers.NotFound)
 	r.Run()
 }

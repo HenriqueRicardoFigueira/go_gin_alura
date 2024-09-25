@@ -89,3 +89,7 @@ func Index(c *gin.Context) {
 		"students": students,
 	})
 }
+
+func NotFound(c *gin.Context) {
+	c.HTML(404, "404.html", nil)
+}
