@@ -80,3 +80,7 @@ func CreateStudent(c *gin.Context) {
 	database.DB.Create(&student)
 	c.JSON(200, student)
 }
+
+func Index(c *gin.Context) {
+	c.HTML(200, "index.html", gin.H{})
+}

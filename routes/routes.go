@@ -9,6 +9,7 @@ import (
 
 func HandleRequests() {
 	r := gin.Default()
+	r.LoadHTMLGlob("templates/*")
 	database.ConnectDb()
 	r.GET("/students", controllers.GetStudents)
 	r.GET("/students/:id", controllers.GetStudent)
@@ -16,5 +17,6 @@ func HandleRequests() {
 	r.DELETE("/students/:id", controllers.DeleteStudent)
 	r.PATCH("/students/:id", controllers.UpdateStudent)
 	r.GET("/students/search", controllers.SearchStudentByName)
+	r.GET("/", controllers.Index)
 	r.Run()
 }
