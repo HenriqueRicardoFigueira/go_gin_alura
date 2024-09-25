@@ -48,6 +48,11 @@ func UpdateStudent(c *gin.Context) {
 		return
 	}
 
+	if err := models.ValidateStudent(student); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
 	database.DB.Model(&student).Where("id = ?", id).Updates(&student)
 	c.JSON(200, student)
 }
@@ -62,6 +67,11 @@ func DeleteStudent(c *gin.Context) {
 
 func CreateStudent(c *gin.Context) {
 	var student models.Student
+
+	if err := models.ValidateStudent(student); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
 
 	if err := c.ShouldBindJSON(&student); err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
