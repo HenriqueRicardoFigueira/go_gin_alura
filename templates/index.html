@@ -6,6 +6,13 @@
   <title>Index</title>
 </head>
 <body>
-  <h1>GO LANG GIN</h1>
+  <h1>API - GO LANG GIN</h1>
+  <div>
+    <ul>
+      {{range .students}}
+      <li>{{.Name}}</li>
+      {{end}}
+    </ul>
+  </div>
 </body>
 </html>

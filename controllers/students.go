@@ -48,7 +48,7 @@ func UpdateStudent(c *gin.Context) {
 		return
 	}
 
-	if err := models.ValidateStudent(student); err != nil {
+	if err := models.ValidateStudent(&student); err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
@@ -67,20 +67,25 @@ func DeleteStudent(c *gin.Context) {
 
 func CreateStudent(c *gin.Context) {
 	var student models.Student
-
-	if err := models.ValidateStudent(student); err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
-		return
-	}
-
 	if err := c.ShouldBindJSON(&student); err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
+
+	if err := models.ValidateStudent(&student); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
 	database.DB.Create(&student)
 	c.JSON(200, student)
 }
 
 func Index(c *gin.Context) {
-	c.HTML(200, "index.html", gin.H{})
+	var students []models.Student
+	database.DB.Find(&students)
+
+	c.HTML(200, "index.html", gin.H{
+		"students": students,
+	})
 }
